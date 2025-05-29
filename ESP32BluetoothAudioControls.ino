@@ -54,30 +54,19 @@ void loop()
     for (int i = 0; i < (sizeof(keys) / sizeof(keys[0])); i++)
     {
 
-          // read the state of the switch into a local variable:
       int reading = digitalRead(keys[i].pin);
-      // check to see if you just pressed the button
-      // (i.e. the input went from LOW to HIGH), and you've waited long enough
-      // since the last press to ignore any noise:
-
-      // If the switch changed, due to noise or pressing:
       if (reading != keys[i].debounce.lastButtonState)
       {
-        // reset the debouncing timer
         keys[i].debounce.lastDebounceTime = millis();
       }
 
       if ((millis() - keys[i].debounce.lastDebounceTime) > debounceDelay)
       {
-        // whatever the reading is at, it's been there for longer than the debounce
-        // delay, so take it as the actual current state:
-
         // if the button state has changed:
         if (reading != keys[i].debounce.buttonState)
         {
           keys[i].debounce.buttonState = reading;
 
-          // only toggle the LED if the new button state is HIGH
           if (keys[i].debounce.buttonState == LOW)
           {
             bleKeyboard.write(*keys[i].key);
@@ -85,8 +74,6 @@ void loop()
         }
       }
 
-
-    // save the reading. Next time through the loop, it'll be the lastButtonState:
       keys[i].debounce.lastButtonState = reading;
     }
   }
