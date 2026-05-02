@@ -69,7 +69,8 @@ void loop()
         {
           keys[i].debounce.button_state = reading;
 
-          if (keys[i].debounce.button_state == LOW)
+          // HIGH = on release LOW = on press
+          if (keys[i].debounce.button_state == HIGH)
           {
             bleKeyboard.write(*keys[i].key);
           }
