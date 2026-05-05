@@ -25,16 +25,28 @@ typedef struct pin_to_key
 } pin_to_key_t;
 
 pin_to_key_t keys[] = { 
-  {5,  dd, &KEY_MEDIA_PLAY_PAUSE },
-  {6,  dd, &KEY_MEDIA_PREVIOUS_TRACK },
-  {7,  dd, &KEY_MEDIA_NEXT_TRACK },
-  {8,  dd, &KEY_MEDIA_VOLUME_DOWN },
-  {9,  dd, &KEY_MEDIA_VOLUME_UP },
-  {10, dd, &KEY_MEDIA_CONSUMER_CONTROL_CONFIGURATION }, // Should open the default set music app
+  {0,  dd, &KEY_MEDIA_PLAY_PAUSE },
+  // {6,  dd, &KEY_MEDIA_PREVIOUS_TRACK },
+  // {7,  dd, &KEY_MEDIA_NEXT_TRACK },
+  // {8,  dd, &KEY_MEDIA_VOLUME_DOWN },
+  // {9,  dd, &KEY_MEDIA_VOLUME_UP },
+  // {10, dd, &KEY_MEDIA_CONSUMER_CONTROL_CONFIGURATION }, // Should open the default set music app
 };
 
-BleKeyboard bleKeyboard("Aleno Media Buttons", "datapaganism", 100);
+BleKeyboard bleKeyboard("Aleno mygtukas", "datapaganism", 100);
 
+void press_shortcut()
+{
+  // const MediaKeyReport* keys[] = {};
+  bleKeyboard.press('\\');
+  bleKeyboard.press('t');
+  bleKeyboard.press('c');
+  bleKeyboard.press('i');
+  bleKeyboard.press(KEY_F6);
+  delay(100);
+  bleKeyboard.releaseAll();
+
+}
 
 void setup()
 {
@@ -72,7 +84,8 @@ void loop()
           // HIGH = on release LOW = on press
           if (keys[i].debounce.button_state == HIGH)
           {
-            bleKeyboard.write(*keys[i].key);
+            // bleKeyboard.write(*keys[i].key);
+            press_shortcut();
           }
         }
       }
